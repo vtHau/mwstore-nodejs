@@ -78,7 +78,7 @@ const sendGetStartedTemplate = () => {
         elements: [
           {
             title: "Xin chào bạn đến với MW Store",
-            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
+            subtitle: "Mời bạn chọn chức năng",
             image_url: IMAGE_STARTED,
             buttons: [
               {
@@ -214,7 +214,7 @@ const getProduct = () => {
             buttons: [
               {
                 type: "web_url",
-                title: "Chi tiết",
+                title: "Xem chi tiết",
                 url: "https://www.facebook.com/MW-Store-108345978337846",
                 webview_height_ratio: "full",
               },
