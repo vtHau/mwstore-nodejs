@@ -28,17 +28,17 @@ const callSendAPI = (sender_psid, response) => {
   );
 };
 
-const getUserName = async (sender_psid) => {
+const getUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
     request(
       {
-        uri: `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic&access_token=<PAGE_ACCESS_TOKEN>`,
+        uri: `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
         method: "GET",
       },
       (err, res, body) => {
         if (!err) {
-          const resp = JSON.parse(body);
-          const username = `${resp.last_name} ${resp.first_name}`;
+          const { last_name, first_name } = JSON.parse(body);
+          const username = `${last_name} ${first_name}`;
           resolve(username);
         } else {
           reject(err);
