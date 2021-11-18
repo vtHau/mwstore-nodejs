@@ -1,5 +1,6 @@
 require("dotenv").config();
 import request from "request";
+import ChatbotService from "./../services/ChatbotService";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -106,22 +107,32 @@ const handleMessage = (sender_psid, received_message) => {
 };
 
 // Handles messaging_postbacks events
-const handlePostback = (sender_psid, received_postback) => {
+const handlePostback = async (sender_psid, received_postback) => {
   let response;
 
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === "yes") {
-    response = { text: "Thanks!" };
-  } else if (payload === "no") {
-    response = { text: "Oops, try sending another image." };
-  } else if (payload === "GET_STARTED") {
-    response = { text: "OK, Xin chào mừng bạn XXX đến với MW Store" };
+  switch (payload) {
+    case "yes":
+      response = { text: "Thanks!" };
+      break;
+
+    case "no":
+      response = { text: "Oops, try sending another image." };
+      break;
+
+    case "GET_STARTED":
+      await ChatbotService.handleGetStarted(sender_psid);
+      break;
+
+    default:
+      response = { text: `Xin lỗi, Chúng tôi không biết ${payload} là gì` };
   }
+
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  // callSendAPI(sender_psid, response);
 };
 
 // Sends response messages via the Send API
