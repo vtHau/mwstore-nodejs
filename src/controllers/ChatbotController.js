@@ -123,6 +123,7 @@ const handlePostback = async (sender_psid, received_postback) => {
       response = { text: "Oops, try sending another image." };
       break;
 
+    case "RESTART_BOT":
     case "GET_STARTED":
       await ChatbotService.handleGetStarted(sender_psid);
       break;
@@ -163,7 +164,7 @@ const callSendAPI = (sender_psid, response) => {
   );
 };
 
-const setUpProfile = async (req, res) => {
+const setupProfile = async (req, res) => {
   let request_body = {
     get_started: { payload: "GET_STARTED" },
     whitelisted_domains: ["https://mwstore-nodejs.herokuapp.com/"],
@@ -189,8 +190,56 @@ const setUpProfile = async (req, res) => {
   return res.send("Setup profile success");
 };
 
+const setupPersistent = async (req, res) => {
+  let request_body = {
+    persistent_menu: [
+      {
+        locale: "default",
+        composer_input_disabled: false,
+        call_to_actions: [
+          {
+            type: "postback",
+            title: "Youtube Channel MW Store",
+            payload: "VIEW_YOUTUBE",
+          },
+          {
+            type: "web_url",
+            title: "Facebook Page",
+            url: "https://www.originalcoastclothing.com/",
+            webview_height_ratio: "full",
+          },
+          {
+            type: "postback",
+            title: "Bắt đầu lại",
+            payload: "RESTART_BOT",
+          },
+        ],
+      },
+    ],
+  };
+
+  await request(
+    {
+      uri: `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("Setup persistent succes");
+      } else {
+        console.error("Err: " + err);
+      }
+    }
+  );
+
+  return res.send("Setup persistent succes");
+};
+
 module.exports = {
   getWebhook,
   postWebhook,
-  setUpProfile,
+  setupProfile,
+  setupPersistent,
 };

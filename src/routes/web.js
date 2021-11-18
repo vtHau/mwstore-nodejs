@@ -7,9 +7,10 @@ const router = express.Router();
 const initWebRoutes = (app) => {
   router.get("/", HomeController.getHomePage);
 
-  router.post("/setup-profile", ChatbotController.setUpProfile);
   router.get("/webhook", ChatbotController.getWebhook);
   router.post("/webhook", ChatbotController.postWebhook);
+  router.post("/setup-profile", ChatbotController.setupProfile);
+  router.post("/setup-persistent", ChatbotController.setupPersistent);
 
   return app.use("/", router);
 };
