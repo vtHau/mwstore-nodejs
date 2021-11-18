@@ -2,7 +2,8 @@ require("dotenv").config();
 import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-let getWebhook = (req, res) => {
+
+const getWebhook = (req, res) => {
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -25,7 +26,7 @@ let getWebhook = (req, res) => {
   }
 };
 
-let postWebhook = (req, res) => {
+const postWebhook = (req, res) => {
   let body = req.body;
 
   // Checks this is an event from a page subscription
@@ -58,7 +59,7 @@ let postWebhook = (req, res) => {
 };
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+const handleMessage = (sender_psid, received_message) => {
   let response;
 
   // Checks if the message contains text
@@ -102,10 +103,10 @@ function handleMessage(sender_psid, received_message) {
 
   // Send the response message
   callSendAPI(sender_psid, response);
-}
+};
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+const handlePostback = (sender_psid, received_postback) => {
   let response;
 
   // Get the payload for the postback
@@ -116,13 +117,15 @@ function handlePostback(sender_psid, received_postback) {
     response = { text: "Thanks!" };
   } else if (payload === "no") {
     response = { text: "Oops, try sending another image." };
+  } else if (payload === "GET_STARTED") {
+    response = { text: "OK, Xin chào mừng bạn XXX đến với MW Store" };
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
-}
+};
+
 // Sends response messages via the Send API
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+const callSendAPI = (sender_psid, response) => {
   // Construct the message body
   let request_body = {
     recipient: {
@@ -147,9 +150,9 @@ function callSendAPI(sender_psid, response) {
       }
     }
   );
-}
+};
 
-let setUpProfile = async (req, res) => {
+const setUpProfile = async (req, res) => {
   let request_body = {
     get_started: { payload: "GET_STARTED" },
     whitelisted_domains: ["https://mwstore-nodejs.herokuapp.com/"],
