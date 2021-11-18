@@ -106,6 +106,76 @@ const sendGetStartedTemplate = () => {
   return response;
 };
 
+const handleSendMainMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const resTemplate = getMainMenuTemplate();
+      await callSendAPI(sender_psid, resTemplate);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getMainMenuTemplate = () => {
+  const response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "ăn trửa",
+            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "postback",
+                title: "Bũa trưa!",
+                payload: "LUNCH_MENU",
+              },
+              {
+                type: "postback",
+                title: "Bữa tối!",
+                payload: "DINNER_MENU",
+              },
+            ],
+          },
+          {
+            title: "đặt bàn",
+            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "postback",
+                title: "Đặt bàn!",
+                payload: "RESERVE_TABLE",
+              },
+            ],
+          },
+          {
+            title: "khong gian nha hang",
+            subtitle: "day la khong gian hang",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "postback",
+                title: "Menu Chính!",
+                payload: "SHOW_ROOM",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+
+  return response;
+};
+
 module.exports = {
   handleGetStarted,
+  handleSendMainMenu,
 };

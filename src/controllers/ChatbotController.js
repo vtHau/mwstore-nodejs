@@ -128,6 +128,10 @@ const handlePostback = async (sender_psid, received_postback) => {
       await ChatbotService.handleGetStarted(sender_psid);
       break;
 
+    case "MAIN_MENU":
+      await ChatbotService.handleSendMainMenu(sender_psid);
+      break;
+
     default:
       response = { text: `Xin lỗi, Chúng tôi không biết ${payload} là gì` };
   }
