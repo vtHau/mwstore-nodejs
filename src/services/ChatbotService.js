@@ -55,7 +55,7 @@ const handleGetStarted = (sender_psid) => {
     try {
       const username = await getUserName(sender_psid);
       const resText = {
-        text: `OK, Xin chào mừng bạn ${username} đến với MW Store`,
+        text: `Chàoo!!, Chào mừng bạn ${username} đến với MW Store`,
       };
       await callSendAPI(sender_psid, resText);
 
@@ -83,18 +83,73 @@ const sendGetStartedTemplate = () => {
             buttons: [
               {
                 type: "postback",
-                title: "Menu Chính!",
-                payload: "MAIN_MENU",
+                title: "Sản phẩm",
+                payload: "PRODUCT_LIST",
               },
+              //them o day
+            ],
+          },
+        ],
+      },
+    },
+  };
+
+  return response;
+};
+
+const handleProductList = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const resTemplate = getMenuProductList();
+      await callSendAPI(sender_psid, resTemplate);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getMenuProductList = () => {
+  const response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "Sản phẩm mới",
+            subtitle: "Danh sách các sản phẩm mới",
+            image_url: IMAGE_STARTED,
+            buttons: [
               {
                 type: "postback",
-                title: "Đặt bàn!",
-                payload: "RESERVE_TABLE",
+                title: "Xem sản phẩm",
+                payload: "PRODUCT_NEW",
               },
+            ],
+          },
+          {
+            title: "Sản phẩm xem nhiều",
+            subtitle: "Danh sách các sản phẩm xem nhiều nhất",
+            image_url: IMAGE_STARTED,
+            buttons: [
               {
                 type: "postback",
-                title: "Hướng dẫn sử dụng!",
-                payload: "GUIDE_TO",
+                title: "Xem sản phẩm",
+                payload: "PRODUCT_VIEW",
+              },
+            ],
+          },
+          {
+            title: "Sản phẩm nỏi bật",
+            subtitle: "Danh sách các sản phẩm nổi bật",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "postback",
+                title: "Xem sản phẩm",
+                payload: "PRODUCT_FEATHER",
               },
             ],
           },
@@ -106,10 +161,10 @@ const sendGetStartedTemplate = () => {
   return response;
 };
 
-const handleSendMainMenu = (sender_psid) => {
+const handleProductNew = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const resTemplate = getMainMenuTemplate();
+      const resTemplate = getProduct();
       await callSendAPI(sender_psid, resTemplate);
 
       resolve("done");
@@ -119,7 +174,33 @@ const handleSendMainMenu = (sender_psid) => {
   });
 };
 
-const getMainMenuTemplate = () => {
+const handleProductView = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const resTemplate = getProduct();
+      await callSendAPI(sender_psid, resTemplate);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const handleProductFeather = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const resTemplate = getProduct();
+      await callSendAPI(sender_psid, resTemplate);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getProduct = () => {
   const response = {
     attachment: {
       type: "template",
@@ -127,43 +208,15 @@ const getMainMenuTemplate = () => {
         template_type: "generic",
         elements: [
           {
-            title: "ăn trửa",
-            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
+            title: "Samsung Galaxy S20",
+            subtitle: "123.456.789",
             image_url: IMAGE_STARTED,
             buttons: [
               {
-                type: "postback",
-                title: "Bũa trưa!",
-                payload: "LUNCH_MENU",
-              },
-              {
-                type: "postback",
-                title: "Bữa tối!",
-                payload: "DINNER_MENU",
-              },
-            ],
-          },
-          {
-            title: "đặt bàn",
-            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
-            image_url: IMAGE_STARTED,
-            buttons: [
-              {
-                type: "postback",
-                title: "Đặt bàn!",
-                payload: "RESERVE_TABLE",
-              },
-            ],
-          },
-          {
-            title: "khong gian nha hang",
-            subtitle: "day la khong gian hang",
-            image_url: IMAGE_STARTED,
-            buttons: [
-              {
-                type: "postback",
-                title: "Menu Chính!",
-                payload: "SHOW_ROOM",
+                type: "web_url",
+                title: "Chi tiết",
+                url: "https://www.facebook.com/MW-Store-108345978337846",
+                webview_height_ratio: "full",
               },
             ],
           },
@@ -177,5 +230,8 @@ const getMainMenuTemplate = () => {
 
 module.exports = {
   handleGetStarted,
-  handleSendMainMenu,
+  handleProductList,
+  handleProductNew,
+  handleProductView,
+  handleProductFeather,
 };

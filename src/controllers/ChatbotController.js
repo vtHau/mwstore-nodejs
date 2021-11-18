@@ -59,7 +59,6 @@ const postWebhook = (req, res) => {
   }
 };
 
-// Handles messages events
 const handleMessage = (sender_psid, received_message) => {
   let response;
 
@@ -106,14 +105,11 @@ const handleMessage = (sender_psid, received_message) => {
   callSendAPI(sender_psid, response);
 };
 
-// Handles messaging_postbacks events
 const handlePostback = async (sender_psid, received_postback) => {
   let response;
 
-  // Get the payload for the postback
   let payload = received_postback.payload;
 
-  // Set the response based on the postback payload
   switch (payload) {
     case "yes":
       response = { text: "Thanks!" };
@@ -123,24 +119,32 @@ const handlePostback = async (sender_psid, received_postback) => {
       response = { text: "Oops, try sending another image." };
       break;
 
-    case "RESTART_BOT":
+    case "RESTART":
     case "GET_STARTED":
       await ChatbotService.handleGetStarted(sender_psid);
       break;
 
-    case "MAIN_MENU":
-      await ChatbotService.handleSendMainMenu(sender_psid);
+    case "PRODUCT_LIST":
+      await ChatbotService.handleProductList(sender_psid);
+      break;
+
+    case "PRODUCT_NEW":
+      await ChatbotService.handleProductNew(sender_psid);
+      break;
+
+    case "PRODUCT_VIEW":
+      await ChatbotService.handleProductView(sender_psid);
+      break;
+
+    case "PRODUCT_FEATHER":
+      await ChatbotService.handleProductFeather(sender_psid);
       break;
 
     default:
       response = { text: `Xin lỗi, Chúng tôi không biết ${payload} là gì` };
   }
-
-  // Send the message to acknowledge the postback
-  // callSendAPI(sender_psid, response);
 };
 
-// Sends response messages via the Send API
 const callSendAPI = (sender_psid, response) => {
   // Construct the message body
   let request_body = {
@@ -174,7 +178,6 @@ const setupProfile = async (req, res) => {
     whitelisted_domains: ["https://mwstore-nodejs.herokuapp.com/"],
   };
 
-  // Send the HTTP request to the Messenger Platform
   await request(
     {
       uri: `https://graph.facebook.com/v12.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
@@ -202,20 +205,21 @@ const setupPersistent = async (req, res) => {
         composer_input_disabled: false,
         call_to_actions: [
           {
-            type: "postback",
-            title: "Youtube Channel MW Store",
-            payload: "VIEW_YOUTUBE",
+            type: "web_url",
+            title: "Đi tới website",
+            url: "https://www.facebook.com/MW-Store-108345978337846",
+            webview_height_ratio: "full",
           },
           {
             type: "web_url",
-            title: "Facebook Page",
-            url: "https://www.originalcoastclothing.com/",
+            title: "Facebook page",
+            url: "https://www.facebook.com/MW-Store-108345978337846",
             webview_height_ratio: "full",
           },
           {
             type: "postback",
-            title: "Bắt đầu lại",
-            payload: "RESTART_BOT",
+            title: "Bắt đầu",
+            payload: "RESTART",
           },
         ],
       },
