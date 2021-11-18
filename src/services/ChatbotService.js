@@ -29,7 +29,7 @@ const callSendAPI = (sender_psid, response) => {
 };
 
 const handleGetStarted = (sender_psid) => {
-  return Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const res = { text: "OK, Xin chào mừng bạn XXX đến với MW Store" };
       await callSendAPI(sender_psid, res);
