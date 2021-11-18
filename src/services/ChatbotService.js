@@ -2,6 +2,8 @@ require("dotenv").config();
 import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const IMAGE_STARTED =
+  "https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-52.jpg";
 
 const callSendAPI = (sender_psid, response) => {
   let request_body = {
@@ -52,15 +54,56 @@ const handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const username = await getUserName(sender_psid);
-      const res = {
+      const resText = {
         text: `OK, Xin chào mừng bạn ${username} đến với MW Store`,
       };
-      await callSendAPI(sender_psid, res);
+      await callSendAPI(sender_psid, resText);
+
+      const resTemplate = sendGetStartedTemplate();
+      await callSendAPI(sender_psid, resTemplate);
+
       resolve("done");
     } catch (e) {
       reject(e);
     }
   });
+};
+
+const sendGetStartedTemplate = () => {
+  const response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "Xin chào bạn đến với MW Store",
+            subtitle: "Dưới đây là cái lựa cho của nhà hàng.",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "postback",
+                title: "Menu Chính!",
+                payload: "MAIN_MENU",
+              },
+              {
+                type: "postback",
+                title: "Đặt bàn!",
+                payload: "RESERVE_TABLE",
+              },
+              {
+                type: "postback",
+                title: "Hướng dẫn sử dụng!",
+                payload: "GUIDE_TO",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+
+  return response;
 };
 
 module.exports = {
