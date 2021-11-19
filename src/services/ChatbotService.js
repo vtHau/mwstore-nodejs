@@ -182,7 +182,7 @@ const ChatbotService = {
       .getProductNew()
       .then((res) => {
         res.forEach((product, key) => {
-          if (key <= 5) {
+          if (key <= 4) {
             const { title, price, image } = product;
             products.push({
               title: title,
