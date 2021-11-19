@@ -108,7 +108,7 @@ const handleMessage = (sender_psid, received_message) => {
 const handlePostback = async (sender_psid, received_postback) => {
   let response;
 
-  let payload = received_postback.payload;
+  const payload = received_postback.payload;
 
   switch (payload) {
     case "yes":

@@ -1,13 +1,27 @@
 import { Product } from "./../models/index";
 import productApi from "../apis/productApi";
 
+const getProduct = (products) => {
+  const response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: products,
+      },
+    },
+  };
+
+  return response;
+};
+
 const HomeController = {
   getHomePage: async (req, res) => {
     return res.render("homepage.ejs");
   },
 
   testApi: () => {
-    const test = [
+    const but = [
       {
         type: "web_url",
         title: "Xem chi tiết",
@@ -27,13 +41,14 @@ const HomeController = {
               title: title,
               subtitle: price,
               image_url: image,
-              buttons: test,
+              buttons: but,
             };
 
             return newProduct;
           });
+        const test = getProduct(products);
 
-        console.log("product: ", products);
+        // console.log("product: ", test.attachment.payload);
       })
       .catch((err) => {});
   },

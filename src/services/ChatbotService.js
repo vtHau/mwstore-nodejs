@@ -169,7 +169,7 @@ const ChatbotService = {
       .getProductNew()
       .then((res) => {
         const products = res
-          .filter((product, key) => key <= 4)
+          .filter((product, key) => key <= 10)
           .map((product, key) => {
             const newProduct = {
               title: product.title,
