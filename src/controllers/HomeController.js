@@ -1,7 +1,22 @@
 import { Product } from "./../models/index";
 import productApi from "../apis/productApi";
+const IMAGE_STARTED =
+  "https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-52.jpg";
 
 const getProduct = (products) => {
+  products.push({
+    title: "Quay về",
+    subtitle: "Về lại danh mục sản phẩm",
+    image_url: IMAGE_STARTED,
+    buttons: [
+      {
+        type: "postback",
+        title: "Quay về",
+        payload: "PRODUCT_LIST",
+      },
+    ],
+  });
+
   const response = {
     attachment: {
       type: "template",
@@ -21,34 +36,34 @@ const HomeController = {
   },
 
   testApi: () => {
-    const but = [
-      {
-        type: "web_url",
-        title: "Xem chi tiết",
-        url: "https://www.facebook.com/",
-        webview_height_ratio: "full",
-      },
-    ];
+    const products = [];
 
     productApi
       .getProductNew()
       .then((res) => {
-        const products = res
-          .filter((product, key) => key <= 10)
-          .map((product, key) => {
+        res.forEach((product, key) => {
+          if (key <= 4) {
             const { title, price, image } = product;
-            const newProduct = {
+            products.push({
               title: title,
               subtitle: price,
               image_url: image,
-              buttons: but,
-            };
+              buttons: [
+                {
+                  type: "web_url",
+                  title: "Xem chi tiết",
+                  url: "https://www.facebook.com/",
+                  webview_height_ratio: "full",
+                },
+              ],
+            });
+          }
+        });
 
-            return newProduct;
-          });
-        const test = getProduct(products);
+        console.log(products);
 
-        // console.log("product: ", test.attachment.payload);
+        const resTemplate = getProduct(products);
+        console.log(resTemplate);
       })
       .catch((err) => {});
   },

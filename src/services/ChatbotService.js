@@ -178,6 +178,8 @@ const ChatbotService = {
   },
 
   handleProductNew: (sender_psid) => {
+    const products = [];
+
     productApi
       .getProductNew()
       .then((res) => {
