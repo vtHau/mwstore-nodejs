@@ -167,7 +167,7 @@ const ChatbotService = {
   handleProductNew: (sender_psid) => {
     productApi
       .getProductNew()
-      .then((res) => {
+      .then(async (res) => {
         const products = res.map((product) => {
           const { title, price, image } = product;
 
@@ -188,7 +188,7 @@ const ChatbotService = {
           return newProduct;
         });
 
-        const resTemplate = getProduct(products);
+        const resTemplate = await getProduct(products);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
