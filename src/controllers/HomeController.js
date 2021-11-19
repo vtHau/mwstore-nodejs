@@ -1,9 +1,12 @@
 import db from "./../models/index";
 
 const getHomePage = async (req, res) => {
+  return res.render("homepage.ejs");
+};
+
+const testDB = async (req, res) => {
   try {
     const products = await db.products.findAll();
-    // console.log(products);/
     return res.render("homepage.ejs", {
       products: JSON.stringify(products),
     });
@@ -14,4 +17,5 @@ const getHomePage = async (req, res) => {
 
 module.exports = {
   getHomePage,
+  testDB,
 };
