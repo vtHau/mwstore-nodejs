@@ -190,7 +190,8 @@ const ChatbotService = {
 
         const resTemplate = getProduct(products);
         callSendAPI(sender_psid, resTemplate);
-        // console.log("product: ", products);
+        console.log("resTemplate: ", resTemplate);
+        console.log("product: ", products);
       })
       .catch((err) => {});
   },
