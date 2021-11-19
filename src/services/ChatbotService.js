@@ -167,28 +167,29 @@ const ChatbotService = {
   handleProductNew: (sender_psid) => {
     productApi
       .getProductNew()
-      .then(async (res) => {
-        const products = res.map((product) => {
-          const { title, price, image } = product;
+      .then((res) => {
+        const products = res
+          .filter((product, key) => key <= 5)
+          .map((product) => {
+            const { title, price, image } = product;
+            const newProduct = {
+              title: title,
+              subtitle: price,
+              image_url: image,
+              buttons: [
+                {
+                  type: "web_url",
+                  title: "Xem chi tiết",
+                  url: "https://www.facebook.com/",
+                  webview_height_ratio: "full",
+                },
+              ],
+            };
 
-          const newProduct = {
-            title: title,
-            subtitle: price,
-            image_url: image,
-            buttons: [
-              {
-                type: "web_url",
-                title: "Xem chi tiết",
-                url: "https://www.facebook.com/",
-                webview_height_ratio: "full",
-              },
-            ],
-          };
+            return newProduct;
+          });
 
-          return newProduct;
-        });
-
-        const resTemplate = await getProduct(products);
+        const resTemplate = getProduct(products);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
