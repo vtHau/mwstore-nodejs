@@ -9,10 +9,12 @@
   "author": "trunghau",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
+    "query-string": "^7.0.1",
     "request": "^2.88.2",
     "sequelize": "^6.6.2"
   },

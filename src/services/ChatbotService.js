@@ -50,25 +50,6 @@ const getUserName = (sender_psid) => {
   });
 };
 
-const handleGetStarted = (sender_psid) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const username = await getUserName(sender_psid);
-      const resText = {
-        text: `Chàoo!!, Chào mừng bạn ${username} đến với MW Store`,
-      };
-      await callSendAPI(sender_psid, resText);
-
-      const resTemplate = sendGetStartedTemplate();
-      await callSendAPI(sender_psid, resTemplate);
-
-      resolve("done");
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
-
 const sendGetStartedTemplate = () => {
   const response = {
     attachment: {
@@ -97,17 +78,32 @@ const sendGetStartedTemplate = () => {
   return response;
 };
 
-const handleProductList = (sender_psid) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const resTemplate = getMenuProductList();
-      await callSendAPI(sender_psid, resTemplate);
+const getProduct = () => {
+  const response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: "Samsung Galaxy S20",
+            subtitle: "123.456.789",
+            image_url: IMAGE_STARTED,
+            buttons: [
+              {
+                type: "web_url",
+                title: "Xem chi tiết",
+                url: "https://www.facebook.com/MW-Store-108345978337846",
+                webview_height_ratio: "full",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
 
-      resolve("done");
-    } catch (e) {
-      reject(e);
-    }
-  });
+  return response;
 };
 
 const getMenuProductList = () => {
@@ -161,77 +157,77 @@ const getMenuProductList = () => {
   return response;
 };
 
-const handleProductNew = (sender_psid) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const resTemplate = getProduct();
-      await callSendAPI(sender_psid, resTemplate);
+const ChatbotService = {
+  handleGetStarted: (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const username = await getUserName(sender_psid);
+        const resText = {
+          text: `Chàoo!!, Chào mừng bạn ${username} đến với MW Store`,
+        };
+        await callSendAPI(sender_psid, resText);
 
-      resolve("done");
-    } catch (e) {
-      reject(e);
-    }
-  });
+        const resTemplate = sendGetStartedTemplate();
+        await callSendAPI(sender_psid, resTemplate);
+
+        resolve("done");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  handleProductNew: (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resTemplate = getProduct();
+        await callSendAPI(sender_psid, resTemplate);
+
+        resolve("done");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  handleProductView: (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resTemplate = getProduct();
+        await callSendAPI(sender_psid, resTemplate);
+
+        resolve("done");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  handleProductFeather: (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resTemplate = getProduct();
+        await callSendAPI(sender_psid, resTemplate);
+
+        resolve("done");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  handleProductList: (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resTemplate = getMenuProductList();
+        await callSendAPI(sender_psid, resTemplate);
+
+        resolve("done");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
 };
 
-const handleProductView = (sender_psid) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const resTemplate = getProduct();
-      await callSendAPI(sender_psid, resTemplate);
-
-      resolve("done");
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
-
-const handleProductFeather = (sender_psid) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const resTemplate = getProduct();
-      await callSendAPI(sender_psid, resTemplate);
-
-      resolve("done");
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
-
-const getProduct = () => {
-  const response = {
-    attachment: {
-      type: "template",
-      payload: {
-        template_type: "generic",
-        elements: [
-          {
-            title: "Samsung Galaxy S20",
-            subtitle: "123.456.789",
-            image_url: IMAGE_STARTED,
-            buttons: [
-              {
-                type: "web_url",
-                title: "Xem chi tiết",
-                url: "https://www.facebook.com/MW-Store-108345978337846",
-                webview_height_ratio: "full",
-              },
-            ],
-          },
-        ],
-      },
-    },
-  };
-
-  return response;
-};
-
-module.exports = {
-  handleGetStarted,
-  handleProductList,
-  handleProductNew,
-  handleProductView,
-  handleProductFeather,
-};
+export default ChatbotService;

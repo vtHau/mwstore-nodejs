@@ -1,15 +1,15 @@
 import express from "express";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
-import connectDB from "./configs/db";
+import cors from "./configs/cors";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors);
 
 viewEngine(app);
 webRoutes(app);
-// connectDB();
 
 const PORT = process.env.PORT || 8080;
 
