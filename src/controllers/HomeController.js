@@ -7,30 +7,33 @@ const HomeController = {
   },
 
   testApi: () => {
+    const test = [
+      {
+        type: "web_url",
+        title: "Xem chi tiết",
+        url: "https://www.facebook.com/",
+        webview_height_ratio: "full",
+      },
+    ];
+
     productApi
       .getProductNew()
       .then((res) => {
         const products = res
           .filter((product, key) => key <= 10)
           .map((product, key) => {
+            const { title, price, image } = product;
             const newProduct = {
-              title: product.title,
-              subtitle: product.price,
-              image_url: product.image,
-              buttons: [
-                {
-                  type: "web_url",
-                  title: "Xem chi tiết",
-                  url: "https://www.facebook.com/",
-                  webview_height_ratio: "full",
-                },
-              ],
+              title: title,
+              subtitle: price,
+              image_url: image,
+              buttons: test,
             };
 
             return newProduct;
           });
 
-        // console.log("product: ", products);
+        console.log("product: ", products);
       })
       .catch((err) => {});
   },

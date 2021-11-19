@@ -167,9 +167,9 @@ const ChatbotService = {
   handleProductNew: (sender_psid) => {
     productApi
       .getProductNew()
-      .then((res) => {
+      .then(async (res) => {
         const products = res
-          .filter((product, key) => key <= 10)
+          .filter((product, key) => key <= 4)
           .map((product, key) => {
             const newProduct = {
               title: product.title,
@@ -188,9 +188,9 @@ const ChatbotService = {
             return newProduct;
           });
 
-        const resTemplate = getProduct(products);
+        const resTemplate = await getProduct(products);
+        console.log("resTemplate: ", resTemplate.attachment.payload);
         callSendAPI(sender_psid, resTemplate);
-        console.log("resTemplate: ", resTemplate);
         console.log("product: ", products);
       })
       .catch((err) => {});
