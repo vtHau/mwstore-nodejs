@@ -40,6 +40,7 @@ const getUserName = (sender_psid) => {
       },
       (err, res, body) => {
         if (!err) {
+          console.log("info user", JSON.parse(body));
           const { last_name, first_name } = JSON.parse(body);
           const username = `${last_name} ${first_name}`;
           resolve(username);
