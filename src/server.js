@@ -9,7 +9,7 @@ app.use(express.json());
 
 viewEngine(app);
 webRoutes(app);
-connectDB();
+// connectDB();
 
 const PORT = process.env.PORT || 8080;
 

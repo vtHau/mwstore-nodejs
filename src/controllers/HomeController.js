@@ -1,4 +1,4 @@
-import db from "./../models/index";
+import { Product } from "./../models/index";
 
 const getHomePage = async (req, res) => {
   return res.render("homepage.ejs");
@@ -6,7 +6,8 @@ const getHomePage = async (req, res) => {
 
 const testDB = async (req, res) => {
   try {
-    const products = await db.products.findAll();
+    const products = await Product.findAll();
+    console.log(products);
     return res.render("testdb.ejs", {
       products: JSON.stringify(products),
     });

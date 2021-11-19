@@ -4,8 +4,7 @@
     "password": null,
     "database": "mwstore",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "logging": false
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
@@ -15,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "trunghau_mwstore",
+    "password": "Hauit2881573",
+    "database": "trunghau_mwstore",
+    "host": "103.97.125.243",
     "dialect": "mysql"
   }
 }
