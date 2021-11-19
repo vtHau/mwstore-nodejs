@@ -80,6 +80,19 @@ const sendGetStartedTemplate = () => {
 };
 
 const getProduct = (products) => {
+  products.push({
+    title: "Quay về",
+    subtitle: "Về lại danh mục sản phẩm",
+    image_url: IMAGE_STARTED,
+    buttons: [
+      {
+        type: "postback",
+        title: "Quay về",
+        payload: "PRODUCT_LIST",
+      },
+    ],
+  });
+
   const response = {
     attachment: {
       type: "template",
@@ -168,11 +181,10 @@ const ChatbotService = {
     productApi
       .getProductNew()
       .then((res) => {
-        const products = res
-          .filter((product, key) => key <= 5)
-          .map((product) => {
+        res.forEach((product, key) => {
+          if (key <= 5) {
             const { title, price, image } = product;
-            const newProduct = {
+            products.push({
               title: title,
               subtitle: price,
               image_url: image,
@@ -184,10 +196,9 @@ const ChatbotService = {
                   webview_height_ratio: "full",
                 },
               ],
-            };
-
-            return newProduct;
-          });
+            });
+          }
+        });
 
         const resTemplate = getProduct(products);
         callSendAPI(sender_psid, resTemplate);
