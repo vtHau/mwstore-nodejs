@@ -8,7 +8,7 @@ const productApi = {
     );
   },
   getProductNew: () => {
-    return axiosClient.get(PATH_URL.PRODUCT_NEW);
+    return axiosClient.get("https://fakestoreapi.com/products");
   },
   getProductFeather: () => {
     return axiosClient.get(PATH_URL.PRODUCT_FEATHER);

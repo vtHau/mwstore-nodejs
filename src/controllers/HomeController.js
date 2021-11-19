@@ -6,11 +6,31 @@ const HomeController = {
     return res.render("homepage.ejs");
   },
 
-  testApi: async () => {
+  testApi: () => {
     productApi
       .getProductNew()
-      .then((resp) => {
-        console.log(resp);
+      .then((res) => {
+        const products = res
+          .filter((product, key) => key <= 10)
+          .map((product, key) => {
+            const newProduct = {
+              title: product.title,
+              subtitle: product.price,
+              image_url: product.image,
+              buttons: [
+                {
+                  type: "web_url",
+                  title: "Xem chi tiết",
+                  url: "https://www.facebook.com/",
+                  webview_height_ratio: "full",
+                },
+              ],
+            };
+
+            return newProduct;
+          });
+
+        // console.log("product: ", products);
       })
       .catch((err) => {});
   },

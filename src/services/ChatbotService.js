@@ -78,27 +78,13 @@ const sendGetStartedTemplate = () => {
   return response;
 };
 
-const getProduct = () => {
+const getProduct = (products) => {
   const response = {
     attachment: {
       type: "template",
       payload: {
         template_type: "generic",
-        elements: [
-          {
-            title: "Samsung Galaxy S20",
-            subtitle: "123.456.789",
-            image_url: IMAGE_STARTED,
-            buttons: [
-              {
-                type: "web_url",
-                title: "Xem chi tiết",
-                url: "https://www.facebook.com/MW-Store-108345978337846",
-                webview_height_ratio: "full",
-              },
-            ],
-          },
-        ],
+        elements: products,
       },
     },
   };
@@ -178,16 +164,34 @@ const ChatbotService = {
   },
 
   handleProductNew: (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resTemplate = getProduct();
-        await callSendAPI(sender_psid, resTemplate);
+    productApi
+      .getProductNew()
+      .then((res) => {
+        const products = res
+          .filter((product, key) => key <= 10)
+          .map((product, key) => {
+            const newProduct = {
+              title: product.title,
+              subtitle: product.price,
+              image_url: product.image,
+              buttons: [
+                {
+                  type: "web_url",
+                  title: "Xem chi tiết",
+                  url: "https://www.facebook.com/",
+                  webview_height_ratio: "full",
+                },
+              ],
+            };
 
-        resolve("done");
-      } catch (e) {
-        reject(e);
-      }
-    });
+            return newProduct;
+          });
+
+        const resTemplate = getProduct(products);
+        callSendAPI(sender_psid, resTemplate);
+        // console.log("product: ", products);
+      })
+      .catch((err) => {});
   },
 
   handleProductView: (sender_psid) => {
