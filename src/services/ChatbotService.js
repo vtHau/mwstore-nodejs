@@ -322,6 +322,7 @@ const ChatbotService = {
 
   handleSendAttachments: async (sender_psid, received_message) => {
     let attachment_url = received_message.attachments[0].payload.url;
+    console.log("Url image: ", attachment_url);
 
     response = {
       attachment: {
