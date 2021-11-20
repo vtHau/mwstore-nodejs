@@ -54,7 +54,7 @@ const postWebhook = (req, res) => {
 
 const handleMessage = (sender_psid, received_message) => {
   if (received_message.text) {
-    ChatbotService.handleChatSimsimi(sender_psid);
+    ChatbotService.handleChatSimsimi(sender_psid, received_message);
   } else if (received_message.attachments) {
     ChatbotService.handleSendAttachments(sender_psid, received_message);
   }

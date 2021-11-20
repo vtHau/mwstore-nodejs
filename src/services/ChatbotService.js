@@ -225,7 +225,7 @@ const ChatbotService = {
         await callSendAPI(sender_psid, resText);
 
         const resTemplate = sendGetStartedTemplate();
-        await this.callSendAPI(sender_psid, resTemplate);
+        await callSendAPI(sender_psid, resTemplate);
 
         resolve("done");
       } catch (e) {
@@ -304,7 +304,7 @@ const ChatbotService = {
     });
   },
 
-  handleChatSimsimi: async (sender_psid) => {
+  handleChatSimsimi: async (sender_psid, received_message) => {
     let response;
     await productApi
       .simsimiChat(received_message.text)
