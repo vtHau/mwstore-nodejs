@@ -207,9 +207,9 @@ const callSendAPI = async (sender_psid, response) => {
     },
     (err, res, body) => {
       if (!err) {
-        console.log("message sent!");
+        console.log("Send success !!");
       } else {
-        console.error("Unable to send message:" + err);
+        console.error("Send fail:" + err);
       }
     }
   );
@@ -332,35 +332,6 @@ const ChatbotService = {
       const image = atts.payload.url;
       response.text = await OcrService.tesseract(image);
     }
-
-    // const response = {
-    //   attachment: {
-    //     type: "template",
-    //     payload: {
-    //       template_type: "generic",
-    //       elements: [
-    //         {
-    //           title: "Is this the right picture?",
-    //           subtitle: "Tap a button to answer.",
-    //           image_url: attachment_url,
-    //           buttons: [
-    //             {
-    //               type: "postback",
-    //               title: "Yes!",
-    //               payload: "yes",
-    //             },
-    //             {
-    //               type: "postback",
-    //               title: "No!",
-    //               payload: "no",
-    //             },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   },
-    // };
-
     callSendAPI(sender_psid, response);
   },
 };
