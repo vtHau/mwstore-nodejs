@@ -137,84 +137,84 @@ const getMenuProductList = () => {
   return response;
 };
 
+const sendTypingOn = (sender_psid) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "typing_on",
+  };
+
+  request(
+    {
+      uri: "https://graph.facebook.com/v12.0/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }
+  );
+};
+
+const sendMarkSeen = (sender_psid) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "mark_seen",
+  };
+
+  request(
+    {
+      uri: "https://graph.facebook.com/v12.0/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }
+  );
+};
+const callSendAPI = async (sender_psid, response) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    message: response,
+  };
+
+  await sendMarkSeen(sender_psid);
+  await sendTypingOn(sender_psid);
+
+  request(
+    {
+      uri: "https://graph.facebook.com/v12.0/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }
+  );
+};
+
 const ChatbotService = {
-  sendTypingOn: (sender_psid) => {
-    let request_body = {
-      recipient: {
-        id: sender_psid,
-      },
-      sender_action: "typing_on",
-    };
-
-    request(
-      {
-        uri: "https://graph.facebook.com/v12.0/me/messages",
-        qs: { access_token: PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body,
-      },
-      (err, res, body) => {
-        if (!err) {
-          console.log("message sent!");
-        } else {
-          console.error("Unable to send message:" + err);
-        }
-      }
-    );
-  },
-
-  sendMarkSeen: (sender_psid) => {
-    let request_body = {
-      recipient: {
-        id: sender_psid,
-      },
-      sender_action: "mark_seen",
-    };
-
-    request(
-      {
-        uri: "https://graph.facebook.com/v12.0/me/messages",
-        qs: { access_token: PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body,
-      },
-      (err, res, body) => {
-        if (!err) {
-          console.log("message sent!");
-        } else {
-          console.error("Unable to send message:" + err);
-        }
-      }
-    );
-  },
-  callSendAPI: async (sender_psid, response) => {
-    let request_body = {
-      recipient: {
-        id: sender_psid,
-      },
-      message: response,
-    };
-
-    await sendMarkSeen(sender_psid);
-    await sendTypingOn(sender_psid);
-
-    request(
-      {
-        uri: "https://graph.facebook.com/v12.0/me/messages",
-        qs: { access_token: PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body,
-      },
-      (err, res, body) => {
-        if (!err) {
-          console.log("message sent!");
-        } else {
-          console.error("Unable to send message:" + err);
-        }
-      }
-    );
-  },
-
   handleGetStarted: (sender_psid) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -302,6 +302,56 @@ const ChatbotService = {
         reject(e);
       }
     });
+  },
+
+  handleChatSimsimi: async (sender_psid) => {
+    let response;
+    await productApi
+      .simsimiChat(received_message.text)
+      .then((res) => {
+        if (res.success) {
+          response = {
+            text: res.success,
+          };
+        }
+      })
+      .catch((err) => {});
+
+    callSendAPI(sender_psid, response);
+  },
+
+  handleSendAttachments: async (sender_psid, received_message) => {
+    let attachment_url = received_message.attachments[0].payload.url;
+
+    response = {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [
+            {
+              title: "Is this the right picture?",
+              subtitle: "Tap a button to answer.",
+              image_url: attachment_url,
+              buttons: [
+                {
+                  type: "postback",
+                  title: "Yes!",
+                  payload: "yes",
+                },
+                {
+                  type: "postback",
+                  title: "No!",
+                  payload: "no",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    callSendAPI(sender_psid, response);
   },
 };
 

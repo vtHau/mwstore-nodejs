@@ -52,56 +52,12 @@ const postWebhook = (req, res) => {
   }
 };
 
-const handleMessage = async (sender_psid, received_message) => {
-  let response;
-
+const handleMessage = (sender_psid, received_message) => {
   if (received_message.text) {
-    productApi;
-    await productApi
-      .simsimiChat(received_message.text)
-      .then((res) => {
-        if (res.success) {
-          response = {
-            text: res.success,
-          };
-          console.log(res.success);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    ChatbotService.handleChatSimsimi(sender_psid);
   } else if (received_message.attachments) {
-    let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Is this the right picture?",
-              subtitle: "Tap a button to answer.",
-              image_url: attachment_url,
-              buttons: [
-                {
-                  type: "postback",
-                  title: "Yes!",
-                  payload: "yes",
-                },
-                {
-                  type: "postback",
-                  title: "No!",
-                  payload: "no",
-                },
-              ],
-            },
-          ],
-        },
-      },
-    };
+    ChatbotService.handleSendAttachments(sender_psid, received_message);
   }
-
-  ChatbotService.callSendAPI(sender_psid, response);
 };
 
 const handlePostback = async (sender_psid, received_postback) => {
