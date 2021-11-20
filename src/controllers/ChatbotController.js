@@ -1,5 +1,6 @@
 require("dotenv").config();
 import request from "request";
+import productApi from "../apis/productApi";
 import ChatbotService from "./../services/ChatbotService";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -30,20 +31,14 @@ const getWebhook = (req, res) => {
 const postWebhook = (req, res) => {
   let body = req.body;
 
-  // Checks this is an event from a page subscription
   if (body.object === "page") {
-    // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function (entry) {
-      // Gets the body of the webhook event
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
 
-      // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log("Sender PSID: " + sender_psid);
 
-      // Check if the event is a message or postback and
-      // pass the event to the appropriate handler function
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event.message);
       } else if (webhook_event.postback) {
@@ -51,10 +46,8 @@ const postWebhook = (req, res) => {
       }
     });
 
-    // Returns a '200 OK' response to all requests
     res.status(200).send("EVENT_RECEIVED");
   } else {
-    // Returns a '404 Not Found' if event is not from a page subscription
     res.sendStatus(404);
   }
 };
@@ -62,15 +55,21 @@ const postWebhook = (req, res) => {
 const handleMessage = (sender_psid, received_message) => {
   let response;
 
-  // Checks if the message contains text
   if (received_message.text) {
-    // Create the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response = {
-      text: `You sent the message: "${received_message.text}". Now send me an attachment!`,
-    };
+    productApi
+      .simsimiChat(received_message.text)
+      .then((res) => {
+        if (res.success) {
+          response = {
+            text: res.success,
+          };
+          console.log(res.success);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } else if (received_message.attachments) {
-    // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
     response = {
       attachment: {
@@ -101,7 +100,6 @@ const handleMessage = (sender_psid, received_message) => {
     };
   }
 
-  // Send the response message
   callSendAPI(sender_psid, response);
 };
 
@@ -146,7 +144,6 @@ const handlePostback = async (sender_psid, received_postback) => {
 };
 
 const callSendAPI = (sender_psid, response) => {
-  // Construct the message body
   let request_body = {
     recipient: {
       id: sender_psid,
@@ -154,7 +151,6 @@ const callSendAPI = (sender_psid, response) => {
     message: response,
   };
 
-  // Send the HTTP request to the Messenger Platform
   request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",

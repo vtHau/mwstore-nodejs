@@ -40,7 +40,6 @@ const getUserName = (sender_psid) => {
       },
       (err, res, body) => {
         if (!err) {
-          console.log("info user", JSON.parse(body));
           const { last_name, first_name } = JSON.parse(body);
           const username = `${last_name} ${first_name}`;
           resolve(username);
@@ -69,7 +68,12 @@ const sendGetStartedTemplate = () => {
                 title: "Sản phẩm",
                 payload: "PRODUCT_LIST",
               },
-              //them o day
+              {
+                type: "web_url",
+                title: "Liên hệ & Giới thiệu",
+                url: "https://www.facebook.com/MW-Store-108345978337846",
+                webview_height_ratio: "full",
+              },
             ],
           },
         ],

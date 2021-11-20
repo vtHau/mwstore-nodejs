@@ -23,8 +23,6 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
-    }
     throw error;
   }
 );
