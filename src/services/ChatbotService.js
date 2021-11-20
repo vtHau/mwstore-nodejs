@@ -327,10 +327,14 @@ const ChatbotService = {
     };
 
     const atts = received_message.attachments[0];
-    if (atts[0].type === "image") {
-      const image = atts[0].payload.url;
-      response = await OcrService.tesseract(image);
-    }
+
+    let attachment_url = received_message.attachments[0].payload.url;
+    console.log(received_message.attachments);
+    console.log(received_message.attachments[0].payload);
+    // if (atts[0].type === "image") {
+    //   const image = atts[0].payload.url;
+    //   response = await OcrService.tesseract(image);
+    // }
 
     // const response = {
     //   attachment: {
