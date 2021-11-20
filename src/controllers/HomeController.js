@@ -9,18 +9,7 @@ const HomeController = {
     return res.render("homepage.ejs");
   },
 
-  testApi: () => {
-    productApi
-      .simsimiChat()
-      .then((res) => {
-        if (res.success) {
-          console.log(res.success);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+  testApi: () => {},
 
   testDB: async (req, res) => {
     try {

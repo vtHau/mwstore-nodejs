@@ -6,31 +6,6 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_STARTED =
   "https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-52.jpg";
 
-const callSendAPI = (sender_psid, response) => {
-  let request_body = {
-    recipient: {
-      id: sender_psid,
-    },
-    message: response,
-  };
-
-  request(
-    {
-      uri: "https://graph.facebook.com/v12.0/me/messages",
-      qs: { access_token: PAGE_ACCESS_TOKEN },
-      method: "POST",
-      json: request_body,
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
-      }
-    }
-  );
-};
-
 const getUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
     request(
@@ -163,6 +138,83 @@ const getMenuProductList = () => {
 };
 
 const ChatbotService = {
+  sendTypingOn: (sender_psid) => {
+    let request_body = {
+      recipient: {
+        id: sender_psid,
+      },
+      sender_action: "typing_on",
+    };
+
+    request(
+      {
+        uri: "https://graph.facebook.com/v12.0/me/messages",
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body,
+      },
+      (err, res, body) => {
+        if (!err) {
+          console.log("message sent!");
+        } else {
+          console.error("Unable to send message:" + err);
+        }
+      }
+    );
+  },
+
+  sendMarkSeen: (sender_psid) => {
+    let request_body = {
+      recipient: {
+        id: sender_psid,
+      },
+      sender_action: "mark_seen",
+    };
+
+    request(
+      {
+        uri: "https://graph.facebook.com/v12.0/me/messages",
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body,
+      },
+      (err, res, body) => {
+        if (!err) {
+          console.log("message sent!");
+        } else {
+          console.error("Unable to send message:" + err);
+        }
+      }
+    );
+  },
+  callSendAPI: async (sender_psid, response) => {
+    let request_body = {
+      recipient: {
+        id: sender_psid,
+      },
+      message: response,
+    };
+
+    await sendMarkSeen(sender_psid);
+    await sendTypingOn(sender_psid);
+
+    request(
+      {
+        uri: "https://graph.facebook.com/v12.0/me/messages",
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body,
+      },
+      (err, res, body) => {
+        if (!err) {
+          console.log("message sent!");
+        } else {
+          console.error("Unable to send message:" + err);
+        }
+      }
+    );
+  },
+
   handleGetStarted: (sender_psid) => {
     return new Promise(async (resolve, reject) => {
       try {
