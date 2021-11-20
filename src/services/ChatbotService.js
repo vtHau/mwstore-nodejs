@@ -322,19 +322,16 @@ const ChatbotService = {
   },
 
   handleSendAttachments: async (sender_psid, received_message) => {
-    let response = {
+    const response = {
       text: "Định dạng không hợp lệ, vui lòng chọn lại !!!",
     };
 
     const atts = received_message.attachments[0];
 
-    let attachment_url = received_message.attachments[0].payload.url;
-    console.log(received_message.attachments[0].type);
-    console.log(received_message.attachments[0].payload);
-    // if (atts[0].type === "image") {
-    //   const image = atts[0].payload.url;
-    //   response = await OcrService.tesseract(image);
-    // }
+    if (atts.type === "image") {
+      const image = atts.payload.url;
+      response.text = await OcrService.tesseract(image);
+    }
 
     // const response = {
     //   attachment: {
