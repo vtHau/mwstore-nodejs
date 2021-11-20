@@ -16,7 +16,8 @@
     "mysql2": "^2.2.5",
     "query-string": "^7.0.1",
     "request": "^2.88.2",
-    "sequelize": "^6.6.2"
+    "sequelize": "^6.6.2",
+    "tesseract.js": "^2.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

@@ -1,6 +1,7 @@
 require("dotenv").config();
 import request from "request";
 import productApi from "../apis/productApi";
+import OcrService from "./OcrService";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_STARTED =
@@ -321,36 +322,43 @@ const ChatbotService = {
   },
 
   handleSendAttachments: async (sender_psid, received_message) => {
-    let attachment_url = received_message.attachments[0].payload.url;
-    console.log("Url image: ", attachment_url);
-
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Is this the right picture?",
-              subtitle: "Tap a button to answer.",
-              image_url: attachment_url,
-              buttons: [
-                {
-                  type: "postback",
-                  title: "Yes!",
-                  payload: "yes",
-                },
-                {
-                  type: "postback",
-                  title: "No!",
-                  payload: "no",
-                },
-              ],
-            },
-          ],
-        },
-      },
+    let response = {
+      text: "Định dạng không hợp lệ, vui lòng chọn lại !!!",
     };
+
+    const atts = received_message.attachments[0];
+    if (atts[0].type === "image") {
+      const image = atts[0].payload.url;
+      response = await OcrService.tesseract(image);
+    }
+
+    // const response = {
+    //   attachment: {
+    //     type: "template",
+    //     payload: {
+    //       template_type: "generic",
+    //       elements: [
+    //         {
+    //           title: "Is this the right picture?",
+    //           subtitle: "Tap a button to answer.",
+    //           image_url: attachment_url,
+    //           buttons: [
+    //             {
+    //               type: "postback",
+    //               title: "Yes!",
+    //               payload: "yes",
+    //             },
+    //             {
+    //               type: "postback",
+    //               title: "No!",
+    //               payload: "no",
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   },
+    // };
 
     callSendAPI(sender_psid, response);
   },
