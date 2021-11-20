@@ -225,7 +225,7 @@ const ChatbotService = {
         await callSendAPI(sender_psid, resText);
 
         const resTemplate = sendGetStartedTemplate();
-        await callSendAPI(sender_psid, resTemplate);
+        await this.callSendAPI(sender_psid, resTemplate);
 
         resolve("done");
       } catch (e) {
