@@ -52,11 +52,12 @@ const postWebhook = (req, res) => {
   }
 };
 
-const handleMessage = (sender_psid, received_message) => {
+const handleMessage = async (sender_psid, received_message) => {
   let response;
 
   if (received_message.text) {
-    productApi
+    productApi;
+    await productApi
       .simsimiChat(received_message.text)
       .then((res) => {
         if (res.success) {
