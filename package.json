@@ -17,6 +17,7 @@
     "query-string": "^7.0.1",
     "request": "^2.88.2",
     "sequelize": "^6.6.2",
+    "socket.io": "^4.4.0",
     "tesseract.js": "^2.1.5"
   },
   "devDependencies": {
