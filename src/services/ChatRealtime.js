@@ -10,7 +10,9 @@ const ChatRealtime = async (io) => {
       try {
         await messageApi.postMessage(data);
         socket.broadcast.emit("receive_message", data);
-      } catch (error) {}
+      } catch (err) {
+        console.log(err);
+      }
     });
 
     socket.on("keyboard_message_send", (data) => {

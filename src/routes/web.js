@@ -1,5 +1,6 @@
 import express from "express";
 import HomeController from "./../controllers/HomeController";
+import NotificationController from "./../controllers/NotificationController";
 import ChatbotController from "./../controllers/ChatbotController";
 
 const router = express.Router();
@@ -8,6 +9,8 @@ const initWebRoutes = (app) => {
   router.get("/", HomeController.getHomePage);
   router.get("/test-db", HomeController.testDB);
   router.get("/testapi", HomeController.testApi);
+
+  router.get("/message", NotificationController.testSend);
 
   router.get("/webhook", ChatbotController.getWebhook);
   router.post("/webhook", ChatbotController.postWebhook);
