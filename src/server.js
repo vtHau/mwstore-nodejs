@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, { cors: { origin: "*" } });
 
-const PORT = 9000;
+const PORT = 8080;
 
 app.use(express.json());
 app.use(cors);
