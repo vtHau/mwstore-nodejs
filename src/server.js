@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import http from "http";
 import viewEngine from "./configs/viewEngine";
@@ -9,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, { cors: { origin: "*" } });
 
-const PORT = 8080;
+const PORT = process.env.PORT || 9000;
 
 app.use(express.json());
 app.use(cors);
