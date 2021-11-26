@@ -1,20 +1,36 @@
+import notificationApi from "../apis/notificationApi";
 import { sendNotificationToClient } from "./../services/notify";
 
 const NotificationController = {
-  testSend: (req, res) => {
-    try {
-      const tokens = [
-        "dyqxz4yRXzhjtTkl5Aqz5a:APA91bF31c9vCblY-nPgr2iDDWtQ9P3acnQUhkTHWD8nEiikz00Hz_oSxOyLh6tnbN1zXFGzdaZplnXpBJ3cB896Xgcg3olr0hiwTPQ9kBI62JNOJTjv89cpAnldITQzdv693jyp6geA",
-      ];
-      const notificationData = {
-        title: "New message",
-        body: "xin chao nef",
-      };
-      sendNotificationToClient(tokens, notificationData);
-      // res.status(200).json({ messages: data.rows });
-    } catch (err) {
-      // res.status(200).json({ messages: err.stack });
+  sendNotification: async (req, res) => {
+    const { title, body, type, user_id } = req.body;
+    const notification = { title, body };
+    let tokens = [];
+
+    if (type === "ONE_USER") {
+      try {
+        const resp = await notificationApi.getToken({ user_id });
+        if (resp.status === "SUCCESS") {
+          tokens = resp.data.map((token) => token.token);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
+
+    if (type === "ALL_USER") {
+      try {
+        const resp = await notificationApi.getAllToken();
+        if (resp.status === "SUCCESS") {
+          tokens = resp.data.map((token) => token.token);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    sendNotificationToClient(tokens, notification);
+    return res.json({ status: "SUCCESS" });
   },
 };
 

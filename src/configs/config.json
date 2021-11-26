@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "trunghau_mwstore",
-    "password": "Hauit2881573",
-    "database": "trunghau_mwstore",
-    "host": "103.97.125.243",
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
     "dialect": "mysql"
   }
 }
