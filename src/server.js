@@ -1,14 +1,11 @@
 require("dotenv").config();
 import express from "express";
 import http from "http";
+import cors from "cors";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
-import cors from "cors";
+import corsConfig from "./configs/corsConfig";
 import ChatRealtime from "./services/ChatRealtime";
-const corsConfig = {
-  credentials: true,
-  origin: true,
-};
 
 const app = express();
 const server = http.createServer(app);
