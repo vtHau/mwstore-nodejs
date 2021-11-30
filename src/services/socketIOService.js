@@ -1,6 +1,6 @@
-import messageApi from "./../apis/messageApi";
+import messageApi from "../apis/messageApi";
 
-const ChatRealtime = async (io) => {
+const socketIOService = async (io) => {
   io.on("connection", (socket) => {
     console.log(`User join chat, socketID: ${socket.id}`);
 
@@ -19,7 +19,12 @@ const ChatRealtime = async (io) => {
       console.log("data: ", data);
       socket.broadcast.emit("keyboard_message_receive", data);
     });
+
+    socket.on("send_notification", (data) => {
+      console.log("send_notification: ", data);
+      socket.broadcast.emit("receive_notification", data);
+    });
   });
 };
 
-export default ChatRealtime;
+export default socketIOService;

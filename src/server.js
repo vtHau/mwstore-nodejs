@@ -5,7 +5,7 @@ import cors from "cors";
 import viewEngine from "./configs/viewEngine";
 import webRoutes from "./routes/web";
 import corsConfig from "./configs/corsConfig";
-import ChatRealtime from "./services/ChatRealtime";
+import socketIOService from "./services/socketIOService";
 
 const app = express();
 const server = http.createServer(app);
@@ -17,7 +17,7 @@ app.use(cors(corsConfig));
 
 viewEngine(app);
 webRoutes(app);
-ChatRealtime(io);
+socketIOService(io);
 
 server.listen(PORT, () => {
   console.log("App is running at the port: ", PORT);
