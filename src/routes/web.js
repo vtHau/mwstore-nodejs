@@ -12,8 +12,8 @@ const initWebRoutes = (app) => {
 
   router.get("/webhook", ChatbotController.getWebhook);
   router.post("/webhook", ChatbotController.postWebhook);
-  router.post("/setup-profile", ChatbotController.setupProfile);
-  router.post("/setup-persistent", ChatbotController.setupPersistent);
+  router.get("/setup-profile", ChatbotController.setupProfile);
+  router.get("/setup-persistent", ChatbotController.setupPersistent);
 
   return app.use("/", router);
 };
