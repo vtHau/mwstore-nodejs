@@ -249,7 +249,7 @@ const ChatbotService = {
             products.push({
               title: name,
               subtitle: formatPrice(price),
-              image_url: `${PATH_URL.BASE_API_SERVER}admins/uploads/products/${image}`,
+              image_url: `${PATH_URL.BASE_URL_SERVER}admins/uploads/products/${image}`,
               buttons: [
                 {
                   type: "web_url",
