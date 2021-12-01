@@ -49,7 +49,7 @@ const sendGetStartedTemplate = () => {
               {
                 type: "web_url",
                 title: "Liên hệ & Giới thiệu",
-                url: "https://www.facebook.com/MW-Store-108345978337846",
+                url: "https://www.mwstore.xyz/contact",
                 webview_height_ratio: "full",
               },
             ],
