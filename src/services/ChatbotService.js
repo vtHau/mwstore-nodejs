@@ -2,6 +2,7 @@ require("dotenv").config();
 import request from "request";
 import productApi from "../apis/productApi";
 import OcrService from "./OcrService";
+import * as PATH_URL from "./../constants/apiUrl";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_STARTED =
@@ -243,16 +244,16 @@ const ChatbotService = {
       .then((res) => {
         res.forEach((product, key) => {
           if (key <= 4) {
-            const { title, price, image } = product;
+            const { name, slug, price, image } = product;
             products.push({
-              title: title,
+              title: name,
               subtitle: price,
               image_url: image,
               buttons: [
                 {
                   type: "web_url",
                   title: "Xem chi tiết",
-                  url: "https://www.facebook.com/",
+                  url: `${PATH_URL.BASE_API_SERVER}/product/${slug}`,
                   webview_height_ratio: "full",
                 },
               ],

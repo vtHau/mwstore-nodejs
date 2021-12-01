@@ -13,10 +13,7 @@ const productApi = {
     );
   },
   getProductNew: () => {
-    return axiosClient.get("https://fakestoreapi.com/products");
-  },
-  getProductFeather: () => {
-    return axiosClient.get(PATH_URL.PRODUCT_FEATHER);
+    return axiosClient.get(PATH_URL.PRODUCT_NEW);
   },
 };
 

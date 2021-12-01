@@ -1,6 +1,16 @@
+import productApi from "./../apis/productApi";
+
 const HomeController = {
   getHomePage: (req, res) => {
-    return res.render("homepage.ejs");
+    productApi
+      .getProductNew()
+      .then((res) => {
+        console.log(res);
+        return res.render("homepage.ejs");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 
