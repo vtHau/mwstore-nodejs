@@ -253,7 +253,7 @@ const ChatbotService = {
                 {
                   type: "web_url",
                   title: "Xem chi tiết",
-                  url: `${PATH_URL.BASE_API_SERVER}/product/${slug}`,
+                  url: `${PATH_URL.BASE_API_SERVER}product/${slug}`,
                   webview_height_ratio: "full",
                 },
               ],
