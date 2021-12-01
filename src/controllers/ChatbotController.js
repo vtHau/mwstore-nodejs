@@ -135,18 +135,18 @@ const setupPersistent = async (req, res) => {
           {
             type: "web_url",
             title: "Đi tới website",
-            url: "https://www.facebook.com/MW-Store-108345978337846",
+            url: "https://www.mwstore.xyz",
             webview_height_ratio: "full",
           },
           {
             type: "web_url",
             title: "Facebook page",
-            url: "https://www.facebook.com/MW-Store-108345978337846",
+            url: "https://www.facebook.com/MW-Store-106930531829502",
             webview_height_ratio: "full",
           },
           {
             type: "postback",
-            title: "Bắt đầu",
+            title: "Bắt đầu ại",
             payload: "RESTART",
           },
         ],

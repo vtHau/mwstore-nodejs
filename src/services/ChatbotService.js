@@ -63,18 +63,18 @@ const sendGetStartedTemplate = () => {
 };
 
 const getProduct = (products) => {
-  products.push({
-    title: "Quay về",
-    subtitle: "Về lại danh mục sản phẩm",
-    image_url: IMAGE_STARTED,
-    buttons: [
-      {
-        type: "postback",
-        title: "Quay về",
-        payload: "PRODUCT_LIST",
-      },
-    ],
-  });
+  // products.push({
+  //   title: "Quay về",
+  //   subtitle: "Về lại danh mục sản phẩm",
+  //   image_url: IMAGE_STARTED,
+  //   buttons: [
+  //     {
+  //       type: "postback",
+  //       title: "Quay về",
+  //       payload: "PRODUCT_LIST",
+  //     },
+  //   ],
+  // });
 
   const response = {
     attachment: {
@@ -87,6 +87,33 @@ const getProduct = (products) => {
   };
 
   return response;
+};
+
+const handleProductApi = (res) => {
+  const products = [];
+
+  res.forEach((product, key) => {
+    if (key <= 5) {
+      const { name, slug, price, image } = product;
+      products.push({
+        title: name,
+        subtitle: formatPrice(price),
+        image_url: `${PATH_URL.BASE_URL_SERVER}admins/uploads/products/${image}`,
+        buttons: [
+          {
+            type: "web_url",
+            title: "Xem chi tiết",
+            url: `${PATH_URL.BASE_URL_CLIENT}product/${slug}`,
+            webview_height_ratio: "full",
+          },
+        ],
+      });
+    }
+  });
+
+  const resTemplate = getProduct(products);
+
+  return resTemplate;
 };
 
 const getMenuProductList = () => {
@@ -238,31 +265,10 @@ const ChatbotService = {
   },
 
   handleProductNew: (sender_psid) => {
-    const products = [];
-
     productApi
       .getProductNew()
       .then((res) => {
-        res.forEach((product, key) => {
-          if (key <= 4) {
-            const { name, slug, price, image } = product;
-            products.push({
-              title: name,
-              subtitle: formatPrice(price),
-              image_url: `${PATH_URL.BASE_URL_SERVER}admins/uploads/products/${image}`,
-              buttons: [
-                {
-                  type: "web_url",
-                  title: "Xem chi tiết",
-                  url: `${PATH_URL.BASE_URL_CLIENT}product/${slug}`,
-                  webview_height_ratio: "full",
-                },
-              ],
-            });
-          }
-        });
-
-        const resTemplate = getProduct(products);
+        const resTemplate = handleProductApi(res);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
@@ -282,16 +288,13 @@ const ChatbotService = {
   },
 
   handleProductFeather: (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resTemplate = getProduct();
-        await callSendAPI(sender_psid, resTemplate);
-
-        resolve("done");
-      } catch (e) {
-        reject(e);
-      }
-    });
+    productApi
+      .getProductFeather()
+      .then((res) => {
+        const resTemplate = handleProductApi(res);
+        callSendAPI(sender_psid, resTemplate);
+      })
+      .catch((err) => {});
   },
 
   handleProductList: (sender_psid) => {

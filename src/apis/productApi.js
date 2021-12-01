@@ -15,6 +15,9 @@ const productApi = {
   getProductNew: () => {
     return axiosClient.get(PATH_URL.PRODUCT_NEW);
   },
+  getProductFeather: () => {
+    return axiosClient.get(PATH_URL.PRODUCT_FEATHER);
+  },
 };
 
 export default productApi;
