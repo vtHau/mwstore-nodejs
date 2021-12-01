@@ -3,6 +3,7 @@ import request from "request";
 import productApi from "../apis/productApi";
 import OcrService from "./OcrService";
 import * as PATH_URL from "./../constants/apiUrl";
+import { formatPrice } from "./../helpers/formats";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_STARTED =
@@ -247,13 +248,13 @@ const ChatbotService = {
             const { name, slug, price, image } = product;
             products.push({
               title: name,
-              subtitle: price,
-              image_url: image,
+              subtitle: formatPrice(price),
+              image_url: `${PATH_URL.BASE_API_SERVER}admins/uploads/products/${image}`,
               buttons: [
                 {
                   type: "web_url",
                   title: "Xem chi tiết",
-                  url: `${PATH_URL.BASE_API_SERVER}product/${slug}`,
+                  url: `${PATH_URL.BASE_URL_CLIENT}product/${slug}`,
                   webview_height_ratio: "full",
                 },
               ],
