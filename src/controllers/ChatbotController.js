@@ -146,7 +146,7 @@ const setupPersistent = async (req, res) => {
           },
           {
             type: "postback",
-            title: "Bắt đầu ại",
+            title: "Bắt đầu lại",
             payload: "RESTART",
           },
         ],

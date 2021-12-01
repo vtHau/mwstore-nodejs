@@ -7,7 +7,7 @@ import { formatPrice } from "./../helpers/formats";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_STARTED =
-  "https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-52.jpg";
+  "https://ipicorp.co/wp-content/uploads/2020/05/Shopping-cart-6-tips-to-design-it-and-take-your-checkouts-to-the-next-level.png";
 
 const getUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
@@ -63,19 +63,6 @@ const sendGetStartedTemplate = () => {
 };
 
 const getProduct = (products) => {
-  // products.push({
-  //   title: "Quay về",
-  //   subtitle: "Về lại danh mục sản phẩm",
-  //   image_url: IMAGE_STARTED,
-  //   buttons: [
-  //     {
-  //       type: "postback",
-  //       title: "Quay về",
-  //       payload: "PRODUCT_LIST",
-  //     },
-  //   ],
-  // });
-
   const response = {
     attachment: {
       type: "template",
@@ -275,16 +262,13 @@ const ChatbotService = {
   },
 
   handleProductView: (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resTemplate = getProduct();
-        await callSendAPI(sender_psid, resTemplate);
-
-        resolve("done");
-      } catch (e) {
-        reject(e);
-      }
-    });
+    productApi
+      .getProductView()
+      .then((res) => {
+        const resTemplate = handleProductApi(res);
+        callSendAPI(sender_psid, resTemplate);
+      })
+      .catch((err) => {});
   },
 
   handleProductFeather: (sender_psid) => {

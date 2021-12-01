@@ -7,6 +7,7 @@ export const BASE_API_SERVER = BASE_URL_SERVER + "api/";
 //product
 export const GET_PRODUCT = "product/";
 export const PRODUCT_NEW = "product/new";
+export const PRODUCT_VIEW = "product/view";
 export const PRODUCT_FEATHER = "product/feather";
 export const NEW_MESSAGE = "message/new-message";
 
