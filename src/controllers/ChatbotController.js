@@ -1,6 +1,5 @@
 require("dotenv").config();
 import request from "request";
-import productApi from "../apis/productApi";
 import ChatbotService from "./../services/ChatbotService";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
