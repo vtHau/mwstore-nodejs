@@ -255,7 +255,7 @@ const ChatbotService = {
     productApi
       .getProductNew()
       .then((res) => {
-        const resTemplate = handleProductApi(res);
+        const resTemplate = handleProductApi(res.data);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
@@ -265,7 +265,7 @@ const ChatbotService = {
     productApi
       .getProductView()
       .then((res) => {
-        const resTemplate = handleProductApi(res);
+        const resTemplate = handleProductApi(res.data);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
@@ -275,7 +275,7 @@ const ChatbotService = {
     productApi
       .getProductFeather()
       .then((res) => {
-        const resTemplate = handleProductApi(res);
+        const resTemplate = handleProductApi(res.data);
         callSendAPI(sender_psid, resTemplate);
       })
       .catch((err) => {});
