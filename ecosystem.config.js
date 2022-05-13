@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "appjs",
+      name: "trunghau",
       append_env_to_name: true,
       script: "yarn", 
       args: "start",
