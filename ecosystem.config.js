@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "app-nodejs",
+      name: "appjs",
       append_env_to_name: true,
       script: "yarn", 
       args: "start",
