@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "app-nodejs",
       append_env_to_name: true,
-      script: "yarn",
+      script: "yarn", 
       args: "start",
       instances: 1,
       watch: true,
