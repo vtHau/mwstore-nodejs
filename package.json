@@ -9,6 +9,7 @@
   "author": "trunghau",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-env": "^7.16.4",
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -16,15 +17,14 @@
     "express": "^4.17.1",
     "firebase-admin": "8.11.0",
     "mysql2": "^2.2.5",
+    "nodemon": "^2.0.15",
     "query-string": "^7.0.1",
     "request": "^2.88.2",
     "sequelize": "^6.6.2",
     "socket.io": "^4.4.0",
     "tesseract.js": "^2.1.5",
-    "@babel/core": "^7.16.0",
-    "@babel/node": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "nodemon": "^2.0.15"
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10"
   },
   "devDependencies": {}
 }
