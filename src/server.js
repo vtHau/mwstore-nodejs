@@ -10,7 +10,7 @@ import socketIOService from "./services/socketIOService";
 const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, { cors: corsConfig });
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(cors(corsConfig));
